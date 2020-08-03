@@ -10,5 +10,9 @@ app.get('/', (req, res) => {
 })
 io.on('connection', socket => {
   console.log("A user connected");
+
+  socket.on('disconnect', socket => {
+    console.log("A user disconnected");
+  })
 });
 server.listen(process.env.PORT || 3000);

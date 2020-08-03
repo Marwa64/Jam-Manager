@@ -5,6 +5,7 @@ body{
   background-size: 400% 400%;
   background-attachment: fixed;
   animation: colorAnimation 10s ease infinite;
+  font-family: 'Slabo 13px', serif;
 }
 @keyframes colorAnimation {
   0%{background-position:0% 50%}
@@ -19,16 +20,26 @@ body{
   font-family: 'Ultra', serif;
 }
 .modal-title{
-}
-button{
-  margin-top: 50px;
+  font-family: 'Ultra', serif;
 }
 .btn{
   font-weight: bold;
   font-family: 'Slabo 13px', serif;
-  font-size: 20px;
-  padding: 10px 20px 10px 20px;
+  font-size: 18px;
+  padding: 5px 20px 5px 20px;
+}
+.setTime{
+  margin-top: 40px;
+  font-size: 23px;
 }
 .modal{
   margin-top: 100px;
+}
+h4{
+  margin-top: 8px;
+  margin-left: 10px;
+}
+option{
+  font-family: 'Slabo 13px', serif;
+  font-weight: bold;
 }
