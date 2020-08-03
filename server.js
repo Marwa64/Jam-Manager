@@ -3,7 +3,7 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-let timerContainer, start = false, hours = 0, minutes = 0, seconds = 0, chosenTheme1, chosenTheme2;
+let timerContainer, start = false, hours = 0, minutes = 0, seconds = 0, chosenTheme1, chosenTheme2, submissions=[];
 
 app.use(express.static(__dirname+'/public/'));
 
@@ -86,11 +86,11 @@ function timer(){
     if (seconds === 0){
       if (minutes === 0){
         hours--;
-        minutes = 59;
+        minutes = 1;
       } else {
         minutes--;
       }
-      seconds = 59;
+      seconds = 10;
     } else {
       seconds--;
     }
@@ -98,6 +98,7 @@ function timer(){
   console.log(hours + ":" + minutes + ":"+seconds);
   io.sockets.emit('countDown', {hours: hours, minutes: minutes, seconds: seconds});
   io.sockets.emit('themes', {theme1: chosenTheme1, theme2: chosenTheme2});
+  io.sockets.emit('sub', {submissions: submissions});
 }
 
 io.on('connection', socket => {
@@ -120,6 +121,10 @@ io.on('connection', socket => {
 
     timerContainer = setInterval(timer, 1000);
   });
+
+  socket.on('submission', socket => {
+    submissions.push(socket.url);
+  })
 
   socket.on('disconnect', socket => {
     console.log("A user disconnected");

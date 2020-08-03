@@ -1,4 +1,4 @@
-let socket, hours='00', minutes='00', seconds='00', timerContainer;
+let socket, hours='00', minutes='00', seconds='00', timerContainer, submissions;
 $(document).ready(()=>{
 socket = io();
   socket.on('jamStarted', data => {
@@ -50,9 +50,38 @@ function jamPage() {
       document.querySelector("#main").innerHTML = this.responseText;
       timerContainer = setInterval(updateCounter, 1000);
       getTheme();
+
+      let submit = document.querySelector(".submitBtn");
+      submit.addEventListener('click', () => {
+        let myFile = document.querySelector('#fileSubmitted').files[0];
+        console.log(myFile);
+        let url = URL.createObjectURL(myFile);
+        socket.emit('submission', {url: url});
+        console.log(url);
+      });
     }
   };
   xhttp.open("GET", "html/jamPage.html", true);
+  xhttp.send();
+}
+
+function submissionsPage() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.querySelector("#main").innerHTML = this.responseText;
+      let i = 1;
+      submissions.map(sub => {
+        var a = document.createElement("a");
+        document.body.querySelector(".submissionContainer").appendChild(a);
+        a.href = sub;
+        a.download = "Submission #" + i;
+        a.innerText = "Download submission #" + i;
+        i++;
+      });
+    }
+  };
+  xhttp.open("GET", "html/submissionsPage.html", true);
   xhttp.send();
 }
 
@@ -74,8 +103,16 @@ function updateCounter() {
 
     if (hours == '00' && minutes == '00' && seconds == '00'){
       clearInterval(timerContainer);
+      submissionsPage();
     }
     document.querySelector("#countDown").innerHTML = hours + ":" + minutes + ":"+seconds;
+  });
+
+  socket.on('sub', data => {
+    submissions = [];
+    data.submissions.map(sub => {
+      submissions.push(sub)
+    });
   });
 }
 
