@@ -49,6 +49,7 @@ function jamPage() {
     if (this.readyState == 4 && this.status == 200) {
       document.querySelector("#main").innerHTML = this.responseText;
       timerContainer = setInterval(updateCounter, 1000);
+      getTheme();
     }
   };
   xhttp.open("GET", "html/jamPage.html", true);
@@ -75,5 +76,11 @@ function updateCounter() {
       clearInterval(timerContainer);
     }
     document.querySelector("#countDown").innerHTML = hours + ":" + minutes + ":"+seconds;
+  });
+}
+
+function getTheme() {
+  socket.on('themes', data => {
+    document.querySelector("#theme").innerText = " " + data.theme1 + " / " + data.theme2;
   });
 }

@@ -43,21 +43,21 @@ option{
   font-family: 'Slabo 13px', serif;
   font-weight: bold;
 }
-.topic{
+.theme{
   margin-top: 150px;
   color: white;
-}
-h2{
   font-family: 'Ultra', serif;
+  font-size: 35px;
 }
 #countDown{
   font-family: 'Ultra', serif;
   font-size: 60px;
-  border: solid 2px #FFC107;
+  border: solid 2px #ff6907;
   border-radius: 10px;
   text-align: center;
-  margin-top: 30px;
+  margin-top: 40px;
+  background-color: #f9c8c8a1;
 }
 .submitBtn{
-  margin-top: 50px;
+  margin-top: 100px;
 }
