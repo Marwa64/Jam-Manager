@@ -1,0 +1,34 @@
+body{
+  width: 100%;
+  margin: 0 auto;
+  background-image: linear-gradient(270deg, #e96443, #904e95);
+  background-size: 400% 400%;
+  background-attachment: fixed;
+  animation: colorAnimation 10s ease infinite;
+}
+@keyframes colorAnimation {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+.title{
+  font-size: 4.0rem;
+  text-align: center;
+  color: white;
+  margin-top: 150px;
+  font-family: 'Ultra', serif;
+}
+.modal-title{
+}
+button{
+  margin-top: 50px;
+}
+.btn{
+  font-weight: bold;
+  font-family: 'Slabo 13px', serif;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+}
+.modal{
+  margin-top: 100px;
+}

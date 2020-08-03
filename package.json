@@ -5,14 +5,21 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js",
+    "usemin": "usemin index.html -d dist --htmlmin -o public/index.html"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^4.0.0",
+    "bootstrap": "^4.5.0",
+    "cssmin": "^0.4.3",
     "express": "^4.17.1",
-    "socket.io": "^2.3.0"
+    "htmlmin": "0.0.7",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1",
+    "socket.io": "^2.3.0",
+    "uglify-js": "^3.10.1",
+    "usemin-cli": "^0.6.0"
   }
 }

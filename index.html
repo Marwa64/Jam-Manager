@@ -2,8 +2,51 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Jam Manager</title>
+    <!-- build:css css/bootstrap.css -->
+    <!-- <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"> -->
+    <!-- endbuild -->
+    <link href="https://fonts.googleapis.com/css2?family=Slabo+13px&family=Ultra&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css"/>
   </head>
   <body>
+    <div class="modal" data-backdrop="static">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header justify-content-center">
+            <div class="modal-title"><h2>Set Time Limit</h2></div>
+          </div>
+          <div class="modal-body d-flex justify-content-center">
+            <select class="" name="">
+              <option value="24">24</option>
+              <option value="24">48</option>
+              <option value="24">72</option>
+            </select> &nbsp; Hours
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" id="cancel" class="">Cancel</button>
+            <button type="button" id="start" class="">Start</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="main" class="container">
+      <div class="row justify-content-center title">
+        Ready to start the Jam?
+      </div>
+      <div class="row justify-content-center">
+        <button type="button" class="btn btn-dark setTime">Set Timer</button>
+      </div>
+    </div>
+    <!-- build:js js/bootstrap.js -->
+    <!-- <script src="node_modules/jquery/dist/jquery.slim.min.js"></script> -->
+    <!-- <script src="node_modules/popper.js/dist/umd/popper.min.js"></script> -->
+    <!-- <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script> -->
+    <!-- endbuild -->
+    <script src = "/socket.io/socket.io.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
