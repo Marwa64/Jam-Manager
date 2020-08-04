@@ -126,6 +126,12 @@ io.on('connection', socket => {
     submissions.push(socket.url);
   })
 
+  socket.on('stop', socket => {
+    hours = 0;
+    minutes = 0;
+    seconds = 0;
+  });
+
   socket.on('disconnect', socket => {
     console.log("A user disconnected");
   })

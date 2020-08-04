@@ -53,11 +53,13 @@ function jamPage() {
 
       let submit = document.querySelector(".submitBtn");
       submit.addEventListener('click', () => {
-        let myFile = document.querySelector('#fileSubmitted').files[0];
-        console.log(myFile);
-        let url = URL.createObjectURL(myFile);
-        socket.emit('submission', {url: url});
-        console.log(url);
+        let url = document.querySelector('#fileSubmitted').value;
+        if (url !== ''){
+          socket.emit('submission', {url: url});
+          document.querySelector('#alert').innerHTML = '<div class="alert alert-success text-center" role="alert">The project has been submitted!</div>';
+        } else {
+          document.querySelector('#alert').innerHTML = '<div class="alert alert-danger text-center" role="alert">Please enter the link</div>';
+        }
       });
     }
   };
@@ -75,8 +77,12 @@ function submissionsPage() {
         var a = document.createElement("a");
         document.body.querySelector(".submissionContainer").appendChild(a);
         a.href = sub;
-        a.download = "Submission #" + i;
-        a.innerText = "Download submission #" + i;
+        a.classList.add("btn");
+        a.classList.add("btn-success");
+        a.classList.add("d-flex");
+        a.classList.add("justify-content-center");
+        a.classList.add("mt-4");
+        a.innerText = "Submission #" + i;
         i++;
       });
     }

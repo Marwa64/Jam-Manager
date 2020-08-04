@@ -16,7 +16,7 @@ body{
   font-size: 4.0rem;
   text-align: center;
   color: white;
-  margin-top: 150px;
+  margin-top: 130px;
   font-family: 'Ultra', serif;
 }
 .modal-title{
@@ -26,11 +26,11 @@ body{
   font-weight: bold;
   font-family: 'Slabo 13px', serif;
   font-size: 18px;
-  padding: 5px 20px 5px 20px;
 }
 .setTime{
   margin-top: 40px;
   font-size: 23px;
+  margin-bottom: 50px;
 }
 .modal{
   margin-top: 100px;
@@ -44,7 +44,7 @@ option{
   font-weight: bold;
 }
 .theme{
-  margin-top: 150px;
+  margin-top: 130px;
   color: white;
   font-family: 'Ultra', serif;
   font-size: 35px;
@@ -76,4 +76,42 @@ option{
 }
 .submissionContainer{
   margin-top: 50px;
+  border: solid 1px orange;
+  border-radius: 10px;
+  padding: 20px 20px 20px 20px;
+}
+#fileSubmitted{
+  color: black;
+}
+#fileSubmitted::placeholder{
+  color: #8a8a8a;
+}
+.alert{
+  width: 60%;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  margin-top: 20px;
+}
+#previousJam{
+  visibility: visible;
+}
+.previousBtn{
+  margin-top: 50px;
+  margin-bottom: 100px;
+  font-size: 24px;
+  background-color: #6f008e;
+  color: white;
+  padding: 20px 30px 20px 30px;
+}
+.previousBtn:hover{
+  background-color: white;
+}
+.backBtn{
+  margin-top: 50px;
+  background-color: #6f008e;
+  padding: 10px 20px 10px 20px;
+  color: white;
+}
+.backBtn:hover{
+  background-color: white;
 }
