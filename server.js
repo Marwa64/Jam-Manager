@@ -1,16 +1,15 @@
-
-var SocketIOFileUpload = require('socketio-file-upload'),
-    socketio = require('socket.io'),
-    express = require('express');
+const express = require('express');
+const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 let timerContainer, start = false, hours = 0, minutes = 0, seconds = 0, chosenTheme1, chosenTheme2, submissions=[];
 
-var app = express()
-    .use(SocketIOFileUpload.router)
-    .use(express.static(__dirname + "/public"))
-    .listen(process.env.PORT || 3000);
+app.use(express.static(__dirname+'/public/'));
 
-var io = socketio.listen(app);
+app.get('/', (req, res) => {
+  res.sendFile(__dirname+'/index.html');
+})
 
 let themes = ['print',
               'cheat',
@@ -87,11 +86,11 @@ function timer(){
     if (seconds === 0){
       if (minutes === 0){
         hours--;
-        minutes = 1;
+        minutes = 59;
       } else {
         minutes--;
       }
-      seconds = 10;
+      seconds = 59;
     } else {
       seconds--;
     }
@@ -99,26 +98,10 @@ function timer(){
   console.log(hours + ":" + minutes + ":"+seconds);
   io.sockets.emit('countDown', {hours: hours, minutes: minutes, seconds: seconds});
   io.sockets.emit('themes', {theme1: chosenTheme1, theme2: chosenTheme2});
-  io.sockets.emit('sub', {submissions: submissions});
 }
 
 io.on('connection', socket => {
   console.log("A user connected");
-  // Make an instance of SocketIOFileUpload and listen on this socket:
-  var uploader = new SocketIOFileUpload();
-  uploader.dir = "..";
-  uploader.listen(socket);
-
-  // Do something when a file is saved:
-   uploader.on("saved", function(event){
-       console.log(event.file);
-   });
-
-   // Error handler:
-   uploader.on("error", function(event){
-       console.log("Error from uploader", event);
-   });
-
   socket.emit('jamStarted', {start: start});
 
   socket.on('hours', socket => {
@@ -138,11 +121,14 @@ io.on('connection', socket => {
     timerContainer = setInterval(timer, 1000);
   });
 
-  socket.on('submission', socket => {
-    submissions.push(socket.url);
-  })
+  socket.on('stop', socket => {
+    hours = 0;
+    minutes = 0;
+    seconds = 0;
+  });
 
   socket.on('disconnect', socket => {
     console.log("A user disconnected");
   })
 });
+server.listen(process.env.PORT || 3000);

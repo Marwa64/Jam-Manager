@@ -1,7 +1,6 @@
-let socket, hours='00', minutes='00', seconds='00', timerContainer, submissions, uploader;
+let socket, hours='00', minutes='00', seconds='00', timerContainer;
 $(document).ready(()=>{
 socket = io();
-uploader = new SocketIOFileUpload(socket);
   socket.on('jamStarted', data => {
     if (!data.start){
       landingPage();
@@ -51,39 +50,13 @@ function jamPage() {
       document.querySelector("#main").innerHTML = this.responseText;
       timerContainer = setInterval(updateCounter, 1000);
       getTheme();
-
-      let submit = document.querySelector(".submitBtn");
-      submit.addEventListener('click', () => {
-        uploader.listenOnInput(document.querySelector('#fileSubmitted'));
-        let myFile = document.querySelector('#fileSubmitted').files[0];
-        console.log(myFile);
-        let url = URL.createObjectURL(myFile);
-        socket.emit('submission', {url: url});
-        console.log(url);
-      });
     }
   };
   xhttp.open("GET", "html/jamPage.html", true);
   xhttp.send();
 }
 
-function submissionsPage() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.querySelector("#main").innerHTML = this.responseText;
-      let i = 1;
-      submissions.map(sub => {
-        console.log(sub);
-      });
-    }
-  };
-  xhttp.open("GET", "html/submissionsPage.html", true);
-  xhttp.send();
-}
-
 function updateCounter() {
-  uploader.listenOnInput(document.querySelector('#fileSubmitted'));
   socket.on('countDown', data => {
     hours = data.hours;
     minutes = data.minutes;
@@ -101,16 +74,8 @@ function updateCounter() {
 
     if (hours == '00' && minutes == '00' && seconds == '00'){
       clearInterval(timerContainer);
-      submissionsPage();
     }
     document.querySelector("#countDown").innerHTML = hours + ":" + minutes + ":"+seconds;
-  });
-
-  socket.on('sub', data => {
-    submissions = [];
-    data.submissions.map(sub => {
-      submissions.push(sub)
-    });
   });
 }
 
