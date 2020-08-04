@@ -1,4 +1,4 @@
-let socket, hours='00', minutes='00', seconds='00', timerContainer, submissions;
+let socket, hours='00', minutes='00', seconds='00', timerContainer;
 $(document).ready(()=>{
 socket = io();
   socket.on('jamStarted', data => {
@@ -109,16 +109,8 @@ function updateCounter() {
 
     if (hours == '00' && minutes == '00' && seconds == '00'){
       clearInterval(timerContainer);
-      submissionsPage();
     }
     document.querySelector("#countDown").innerHTML = hours + ":" + minutes + ":"+seconds;
-  });
-
-  socket.on('sub', data => {
-    submissions = [];
-    data.submissions.map(sub => {
-      submissions.push(sub)
-    });
   });
 }
 

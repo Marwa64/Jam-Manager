@@ -19,6 +19,7 @@
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
     "socket.io": "^2.3.0",
+    "socketio-file-upload": "^0.7.2",
     "uglify-js": "^3.10.1",
     "usemin-cli": "^0.6.0"
   }

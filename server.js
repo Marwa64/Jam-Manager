@@ -86,11 +86,11 @@ function timer(){
     if (seconds === 0){
       if (minutes === 0){
         hours--;
-        minutes = 1;
+        minutes = 59;
       } else {
         minutes--;
       }
-      seconds = 10;
+      seconds = 59;
     } else {
       seconds--;
     }
@@ -98,7 +98,6 @@ function timer(){
   console.log(hours + ":" + minutes + ":"+seconds);
   io.sockets.emit('countDown', {hours: hours, minutes: minutes, seconds: seconds});
   io.sockets.emit('themes', {theme1: chosenTheme1, theme2: chosenTheme2});
-  io.sockets.emit('sub', {submissions: submissions});
 }
 
 io.on('connection', socket => {
@@ -121,10 +120,6 @@ io.on('connection', socket => {
 
     timerContainer = setInterval(timer, 1000);
   });
-
-  socket.on('submission', socket => {
-    submissions.push(socket.url);
-  })
 
   socket.on('stop', socket => {
     hours = 0;
