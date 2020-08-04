@@ -1,6 +1,7 @@
-let socket, hours='00', minutes='00', seconds='00', timerContainer, submissions;
+let socket, hours='00', minutes='00', seconds='00', timerContainer, submissions, uploader;
 $(document).ready(()=>{
 socket = io();
+uploader = new SocketIOFileUpload(socket);
   socket.on('jamStarted', data => {
     if (!data.start){
       landingPage();
@@ -53,6 +54,7 @@ function jamPage() {
 
       let submit = document.querySelector(".submitBtn");
       submit.addEventListener('click', () => {
+        uploader.listenOnInput(document.querySelector('#fileSubmitted'));
         let myFile = document.querySelector('#fileSubmitted').files[0];
         console.log(myFile);
         let url = URL.createObjectURL(myFile);
@@ -72,12 +74,7 @@ function submissionsPage() {
       document.querySelector("#main").innerHTML = this.responseText;
       let i = 1;
       submissions.map(sub => {
-        var a = document.createElement("a");
-        document.body.querySelector(".submissionContainer").appendChild(a);
-        a.href = sub;
-        a.download = "Submission #" + i;
-        a.innerText = "Download submission #" + i;
-        i++;
+        console.log(sub);
       });
     }
   };
@@ -86,6 +83,7 @@ function submissionsPage() {
 }
 
 function updateCounter() {
+  uploader.listenOnInput(document.querySelector('#fileSubmitted'));
   socket.on('countDown', data => {
     hours = data.hours;
     minutes = data.minutes;

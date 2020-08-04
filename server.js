@@ -1,15 +1,16 @@
-const express = require('express');
-const app = express();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+
+var SocketIOFileUpload = require('socketio-file-upload'),
+    socketio = require('socket.io'),
+    express = require('express');
 
 let timerContainer, start = false, hours = 0, minutes = 0, seconds = 0, chosenTheme1, chosenTheme2, submissions=[];
 
-app.use(express.static(__dirname+'/public/'));
+var app = express()
+    .use(SocketIOFileUpload.router)
+    .use(express.static(__dirname + "/public"))
+    .listen(process.env.PORT || 3000);
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname+'/index.html');
-})
+var io = socketio.listen(app);
 
 let themes = ['print',
               'cheat',
@@ -103,6 +104,21 @@ function timer(){
 
 io.on('connection', socket => {
   console.log("A user connected");
+  // Make an instance of SocketIOFileUpload and listen on this socket:
+  var uploader = new SocketIOFileUpload();
+  uploader.dir = "..";
+  uploader.listen(socket);
+
+  // Do something when a file is saved:
+   uploader.on("saved", function(event){
+       console.log(event.file);
+   });
+
+   // Error handler:
+   uploader.on("error", function(event){
+       console.log("Error from uploader", event);
+   });
+
   socket.emit('jamStarted', {start: start});
 
   socket.on('hours', socket => {
@@ -130,4 +146,3 @@ io.on('connection', socket => {
     console.log("A user disconnected");
   })
 });
-server.listen(process.env.PORT || 3000);
