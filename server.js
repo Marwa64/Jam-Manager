@@ -79,7 +79,6 @@ let themes = ['print',
 
 function timer(){
   if (hours === 0 && minutes === 0 && seconds === 0){
-    console.log("Time's up!");
     clearInterval(timerContainer);
     start = false;
   } else {
@@ -95,9 +94,9 @@ function timer(){
       seconds--;
     }
   }
-  console.log(hours + ":" + minutes + ":"+seconds);
   io.sockets.emit('countDown', {hours: hours, minutes: minutes, seconds: seconds});
   io.sockets.emit('themes', {theme1: chosenTheme1, theme2: chosenTheme2});
+  io.sockets.emit('sub', {submissions: submissions});
 }
 
 io.on('connection', socket => {
@@ -105,6 +104,7 @@ io.on('connection', socket => {
   socket.emit('jamStarted', {start: start});
 
   socket.on('hours', socket => {
+    submissions = [];
     console.log(socket.hours);
     hours = socket.hours;
     start = true;
@@ -119,6 +119,14 @@ io.on('connection', socket => {
     console.log("Theme 1: " + chosenTheme1 + " Theme 2: " + chosenTheme2);
 
     timerContainer = setInterval(timer, 1000);
+  });
+
+  socket.on('submission', socket => {
+    submissions.push(socket.url);
+  });
+
+  socket.on('subPage', () => {
+    socket.emit('subPage', {submissions: submissions});
   });
 
   socket.on('stop', socket => {

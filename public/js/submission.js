@@ -8,11 +8,12 @@ window.onload = event => {
       document.body.querySelector(".submissionContainer").appendChild(a);
       a.href = sub;
       a.classList.add("btn");
-      a.classList.add("btn-success");
+      a.classList.add("subBtn");
       a.classList.add("d-flex");
       a.classList.add("justify-content-center");
       a.classList.add("mt-4");
       a.innerText = "Submission #" + i;
+      a.setAttribute('target', '_blank');
       i++;
     });
   });

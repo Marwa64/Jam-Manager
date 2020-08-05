@@ -1,4 +1,4 @@
-let socket, hours='00', minutes='00', seconds='00', timerContainer;
+let socket, hours='00', minutes='00', seconds='00', timerContainer, submissions=[];
 $(document).ready(()=>{
 socket = io();
   socket.on('jamStarted', data => {
@@ -32,6 +32,15 @@ function landingPage() {
     if (this.readyState == 4 && this.status == 200) {
       document.querySelector("#main").innerHTML = this.responseText;
 
+      socket.emit('subPage', '');
+      socket.on('subPage', data => {
+        console.log(data.submissions.length);
+        if (data.submissions.length > 0) {
+          console.log("there is enough");
+          document.querySelector("#previousJam").style.visibility = "visible";
+        }
+      });
+
       let setTimeBtn = document.querySelector(".setTime");
       setTimeBtn.addEventListener('click', () => {
         $(".modal").show();
@@ -56,6 +65,7 @@ function jamPage() {
         let url = document.querySelector('#fileSubmitted').value;
         if (url !== ''){
           socket.emit('submission', {url: url});
+          document.querySelector('#fileSubmitted').value = "";
           document.querySelector('#alert').innerHTML = '<div class="alert alert-success text-center" role="alert">The project has been submitted!</div>';
         } else {
           document.querySelector('#alert').innerHTML = '<div class="alert alert-danger text-center" role="alert">Please enter the link</div>';
@@ -78,11 +88,12 @@ function submissionsPage() {
         document.body.querySelector(".submissionContainer").appendChild(a);
         a.href = sub;
         a.classList.add("btn");
-        a.classList.add("btn-success");
+        a.classList.add("subBtn");
         a.classList.add("d-flex");
         a.classList.add("justify-content-center");
         a.classList.add("mt-4");
         a.innerText = "Submission #" + i;
+        a.setAttribute('target', '_blank');
         i++;
       });
     }
@@ -109,9 +120,18 @@ function updateCounter() {
 
     if (hours == '00' && minutes == '00' && seconds == '00'){
       clearInterval(timerContainer);
+      submissionsPage();
     }
     document.querySelector("#countDown").innerHTML = hours + ":" + minutes + ":"+seconds;
   });
+
+  socket.on('sub', data => {
+    submissions = [];
+    data.submissions.map(sub => {
+      submissions.push(sub);
+    });
+  });
+
 }
 
 function getTheme() {
