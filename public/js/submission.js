@@ -6,13 +6,13 @@ window.onload = event => {
     data.submissions.map(sub => {
       var a = document.createElement("a");
       document.body.querySelector(".submissionContainer").appendChild(a);
-      a.href = sub;
+      a.href = sub.url;
       a.classList.add("btn");
       a.classList.add("subBtn");
       a.classList.add("d-flex");
       a.classList.add("justify-content-center");
       a.classList.add("mt-4");
-      a.innerText = "Submission #" + i;
+      a.innerText = sub.name + "'s submission";
       a.setAttribute('target', '_blank');
       i++;
     });

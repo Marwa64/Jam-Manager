@@ -122,7 +122,7 @@ io.on('connection', socket => {
   });
 
   socket.on('submission', socket => {
-    submissions.push(socket.url);
+    submissions.push({url: socket.url, name: socket.name});
   });
 
   socket.on('subPage', () => {

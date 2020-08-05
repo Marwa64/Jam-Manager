@@ -16,7 +16,7 @@ body{
   font-size: 4.0rem;
   text-align: center;
   color: white;
-  margin-top: 130px;
+  margin-top: 120px;
   font-family: 'Ultra', serif;
 }
 .modal-title{
@@ -44,7 +44,7 @@ option{
   font-weight: bold;
 }
 .theme{
-  margin-top: 130px;
+  margin-top: 120px;
   color: white;
   font-family: 'Ultra', serif;
   font-size: 35px;
@@ -79,12 +79,16 @@ option{
   border-radius: 10px;
   padding: 20px 20px 20px 20px;
 }
-#fileSubmitted{
+.textField{
+  margin-top: 10px;
   color: black;
   text-align: center;
 }
-#fileSubmitted::placeholder{
+.textField::placeholder{
   color: #8a8a8a;
+}
+.textField:focus {
+  color: black;
 }
 .alert{
   width: 60%;

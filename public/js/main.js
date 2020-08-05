@@ -1,4 +1,4 @@
-let socket, hours='00', minutes='00', seconds='00', timerContainer, submissions=[];
+let socket, hours='00', minutes='00', seconds='00', timerContainer, submissions=[], fieldColor;
 $(document).ready(()=>{
 socket = io();
   socket.on('jamStarted', data => {
@@ -34,7 +34,6 @@ function landingPage() {
 
       socket.emit('subPage', '');
       socket.on('subPage', data => {
-        console.log(data.submissions.length);
         if (data.submissions.length > 0) {
           console.log("there is enough");
           document.querySelector("#previousJam").style.visibility = "visible";
@@ -59,16 +58,27 @@ function jamPage() {
       document.querySelector("#main").innerHTML = this.responseText;
       timerContainer = setInterval(updateCounter, 1000);
       getTheme();
+      fieldColor = setInterval(changeColor);
 
       let submit = document.querySelector(".submitBtn");
       submit.addEventListener('click', () => {
         let url = document.querySelector('#fileSubmitted').value;
-        if (url !== ''){
-          socket.emit('submission', {url: url});
-          document.querySelector('#fileSubmitted').value = "";
-          document.querySelector('#alert').innerHTML = '<div class="alert alert-success text-center" role="alert">The project has been submitted!</div>';
+        let name = document.querySelector("#name").value;
+        if (name !== ''){
+          if (url !== ''){
+            if (url.includes("https:") || url.includes("http:")){
+              socket.emit('submission', {url: url, name: name});
+              document.querySelector("#name").value = "";
+              document.querySelector('#fileSubmitted').value = "";
+              document.querySelector('#alert').innerHTML = '<div class="alert alert-success text-center" role="alert">The project has been submitted!</div>';
+            } else {
+              document.querySelector('#alert').innerHTML = '<div class="alert alert-danger text-center" role="alert">Invalid link. Please ensure it includes https:/http:</div>';
+            }
+          } else {
+            document.querySelector('#alert').innerHTML = '<div class="alert alert-danger text-center" role="alert">Please enter the link</div>';
+          }
         } else {
-          document.querySelector('#alert').innerHTML = '<div class="alert alert-danger text-center" role="alert">Please enter the link</div>';
+          document.querySelector('#alert').innerHTML = '<div class="alert alert-danger text-center" role="alert">Please enter your name</div>';
         }
       });
     }
@@ -82,19 +92,17 @@ function submissionsPage() {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       document.querySelector("#main").innerHTML = this.responseText;
-      let i = 1;
       submissions.map(sub => {
         var a = document.createElement("a");
         document.body.querySelector(".submissionContainer").appendChild(a);
-        a.href = sub;
+        a.href = sub.url;
         a.classList.add("btn");
         a.classList.add("subBtn");
         a.classList.add("d-flex");
         a.classList.add("justify-content-center");
         a.classList.add("mt-4");
-        a.innerText = "Submission #" + i;
+        a.innerText = sub.name + "'s submission";
         a.setAttribute('target', '_blank');
-        i++;
       });
     }
   };
@@ -120,6 +128,7 @@ function updateCounter() {
 
     if (hours == '00' && minutes == '00' && seconds == '00'){
       clearInterval(timerContainer);
+      clearInterval(fieldColor);
       submissionsPage();
     }
     document.querySelector("#countDown").innerHTML = hours + ":" + minutes + ":"+seconds;
@@ -138,4 +147,19 @@ function getTheme() {
   socket.on('themes', data => {
     document.querySelector("#theme").innerText = " " + data.theme1 + " / " + data.theme2;
   });
+}
+
+function changeColor(){
+  let urlField = document.querySelector('#fileSubmitted');
+  let nameField = document.querySelector("#name");
+  if (urlField.value !== "" || urlField === document.activeElement){
+    urlField.style.backgroundColor = "#e7bbff";
+  } else {
+    urlField.style.backgroundColor = "white";
+  }
+  if (nameField.value !== "" || nameField === document.activeElement){
+    nameField.style.backgroundColor = "#e7bbff";
+  } else {
+    nameField.style.backgroundColor = "white";
+  }
 }

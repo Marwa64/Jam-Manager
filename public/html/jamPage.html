@@ -12,16 +12,30 @@
 
 <div id="submission">
   <div class="row uploadFile">
-    <div class="col-12 d-flex justify-content-center">
-      Enter the link of the project:
+    <div class="col-12 col-sm-6">
+      <div class="row d-flex justify-content-center">
+        Enter the link of the project
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div class="col-12 col-sm-10">
+          <input type="text" id="fileSubmitted" class="form-control textField" placeholder="Ex: https://github.com/user/project">
+        </div>
+      </div>
     </div>
-    <div class="col-sm-4 mt-2 offset-sm-4">
-      <input type="text" id="fileSubmitted" class="form-control" placeholder="Ex: www.github.com/user/project">
+    <div class="col-12 col-sm-6 mt-4 mt-sm-0">
+      <div class="row d-flex justify-content-center">
+        Enter you name
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div class="col-12 col-sm-10">
+          <input type="text" id="name" class="form-control textField" placeholder="Name">
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-sm-2 offset-sm-5 col-10 offset-1">
+    <div class="col-sm-4 offset-sm-4 col-10 offset-1">
       <button type="button" class="btn btn-block btn-warning submitBtn">Submit</button>
     </div>
   </div>
