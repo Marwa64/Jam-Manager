@@ -1,4 +1,4 @@
-let socket, hours='00', minutes='00', seconds='00', timerContainer, submissions=[], fieldColor;
+let socket, hours='00', minutes='00', seconds='00', timerContainer, submissions=[], fieldColor, end=false;
 $(document).ready(()=>{
 socket = io();
   socket.on('jamStarted', data => {
@@ -56,6 +56,7 @@ function jamPage() {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       document.querySelector("#main").innerHTML = this.responseText;
+      end = false;
       timerContainer = setInterval(updateCounter, 1000);
       getTheme();
       fieldColor = setInterval(changeColor);
@@ -88,6 +89,7 @@ function jamPage() {
 }
 
 function submissionsPage() {
+  console.log("subPage");
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -126,7 +128,9 @@ function updateCounter() {
       hours = '0' + hours;
     }
 
-    if (hours == '00' && minutes == '00' && seconds == '00'){
+    if (hours == '00' && minutes == '00' && seconds == '00' && end === false){
+      end=true;
+      console.log("Time up");
       clearInterval(timerContainer);
       clearInterval(fieldColor);
       submissionsPage();
